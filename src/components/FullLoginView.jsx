@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Heart, Stethoscope, ArrowRight, ShieldCheck, UserCheck, Key, AlertCircle } from 'lucide-react';
+import { Heart, Stethoscope, ArrowRight, ShieldCheck, UserCheck, AlertCircle } from 'lucide-react';
 import { apiService } from '../services/api';
 
 export default function FullLoginView({ onLoginSuccess, onGoToRegister }) {
   const [role, setRole] = useState('Senior Member');
-  const [email, setEmail] = useState('sarah.jenkins@vitality.org');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -26,29 +26,15 @@ export default function FullLoginView({ onLoginSuccess, onGoToRegister }) {
       }
     } catch (err) {
       setLoading(false);
-      setErrorMessage('Network connection error. Trying offline fallback...');
+      setErrorMessage('Network connection error. Please try again.');
     }
-  };
-
-  const quickLoginAs = (targetRole) => {
-    setRole(targetRole);
-    if (targetRole === 'Physiotherapist') {
-      setEmail('robert.vance@kineticage.clinic');
-      setPassword('doctor123');
-    } else {
-      setEmail('sarah.jenkins@vitality.org');
-      setPassword('password123');
-    }
-    setTimeout(() => {
-      handleSubmit(null);
-    }, 100);
   };
 
   return (
     <div style={{ padding: '60px 24px', background: 'var(--surface)', minHeight: 'calc(100vh - 120px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div className="glass-card animate-fade-in" style={{ width: '100%', maxWidth: '480px', padding: '40px', background: '#ffffff', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-lg)' }}>
         
-        <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
           <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: role === 'Physiotherapist' ? 'var(--secondary)' : 'var(--primary-container)', color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 14px auto', boxShadow: '0 8px 16px rgba(13,99,27,0.2)' }}>
             {role === 'Physiotherapist' ? <Stethoscope size={28} /> : <Heart size={28} />}
           </div>
@@ -60,38 +46,11 @@ export default function FullLoginView({ onLoginSuccess, onGoToRegister }) {
           </p>
         </div>
 
-        {/* 1-Click Fast Login Box */}
-        <div style={{ background: 'var(--surface-cream)', padding: '14px', borderRadius: 'var(--radius-md)', marginBottom: '20px', border: '1px solid var(--outline-variant)' }}>
-          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--ink-secondary)', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Key size={12} /> Quick Access Accounts
-          </div>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <button
-              type="button"
-              onClick={() => quickLoginAs('Senior Member')}
-              style={{ padding: '8px 12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--primary-container)', background: '#ffffff', color: 'var(--primary-container)', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-            >
-              <span>Member: Sarah Jenkins</span>
-              <span style={{ fontSize: '0.72rem', opacity: 0.85 }}>sarah.jenkins@vitality.org</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => quickLoginAs('Physiotherapist')}
-              style={{ padding: '8px 12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--secondary)', background: '#ffffff', color: 'var(--secondary)', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-            >
-              <span>Doctor: Dr. Robert Vance, PT</span>
-              <span style={{ fontSize: '0.72rem', opacity: 0.85 }}>robert.vance@kineticage.clinic</span>
-            </button>
-          </div>
-        </div>
-
         {/* Role Toggle */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '24px' }}>
           <button
             type="button"
-            onClick={() => { setRole('Senior Member'); setEmail('sarah.jenkins@vitality.org'); setPassword('password123'); }}
+            onClick={() => setRole('Senior Member')}
             style={{
               padding: '10px',
               borderRadius: 'var(--radius-sm)',
@@ -103,7 +62,7 @@ export default function FullLoginView({ onLoginSuccess, onGoToRegister }) {
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              justify: 'center',
+              justifyContent: 'center',
               gap: '6px'
             }}
           >
@@ -112,7 +71,7 @@ export default function FullLoginView({ onLoginSuccess, onGoToRegister }) {
           
           <button
             type="button"
-            onClick={() => { setRole('Physiotherapist'); setEmail('robert.vance@kineticage.clinic'); setPassword('doctor123'); }}
+            onClick={() => setRole('Physiotherapist')}
             style={{
               padding: '10px',
               borderRadius: 'var(--radius-sm)',
@@ -124,7 +83,7 @@ export default function FullLoginView({ onLoginSuccess, onGoToRegister }) {
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              justify: 'center',
+              justifyContent: 'center',
               gap: '6px'
             }}
           >
@@ -146,6 +105,7 @@ export default function FullLoginView({ onLoginSuccess, onGoToRegister }) {
             </label>
             <input 
               type="email" 
+              placeholder="Enter your email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
@@ -159,6 +119,7 @@ export default function FullLoginView({ onLoginSuccess, onGoToRegister }) {
             </label>
             <input 
               type="password" 
+              placeholder="Enter your password"
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
@@ -184,6 +145,10 @@ export default function FullLoginView({ onLoginSuccess, onGoToRegister }) {
           >
             Register New Account
           </button>
+        </div>
+
+        <div style={{ marginTop: '16px', textAlign: 'center', fontSize: '0.78rem', color: 'var(--ink-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
+          <ShieldCheck size={14} style={{ color: 'var(--primary-container)' }} /> 256-Bit Encrypted Healthcare Portal • HIPAA Compliant
         </div>
 
       </div>

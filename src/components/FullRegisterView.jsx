@@ -36,21 +36,9 @@ export default function FullRegisterView({ onRegisterSuccess, onGoToLogin }) {
     }
   };
 
-  const handlePresetRole = (selectedRole) => {
+  const handleRoleSwitch = (selectedRole) => {
     setRole(selectedRole);
-    if (selectedRole === 'Senior Member') {
-      setName('Sarah Jenkins');
-      setEmail('sarah.jenkins@vitality.org');
-      setPassword('senior123');
-      setAge('68');
-      setPhone('+91 98765 43210');
-    } else {
-      setName('Dr. Robert Vance, PT');
-      setEmail('robert.vance@kineticage.clinic');
-      setPassword('doctor123');
-      setAge('45');
-      setPhone('+91 98123 45678');
-    }
+    setErrorMsg('');
   };
 
   return (
@@ -74,7 +62,7 @@ export default function FullRegisterView({ onRegisterSuccess, onGoToLogin }) {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '24px' }}>
           <button
             type="button"
-            onClick={() => handlePresetRole('Senior Member')}
+            onClick={() => handleRoleSwitch('Senior Member')}
             style={{
               padding: '12px',
               borderRadius: 'var(--radius-sm)',
@@ -95,7 +83,7 @@ export default function FullRegisterView({ onRegisterSuccess, onGoToLogin }) {
 
           <button
             type="button"
-            onClick={() => handlePresetRole('Physiotherapist')}
+            onClick={() => handleRoleSwitch('Physiotherapist')}
             style={{
               padding: '12px',
               borderRadius: 'var(--radius-sm)',

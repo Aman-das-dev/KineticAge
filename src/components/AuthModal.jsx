@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { X, UserCheck, ShieldCheck, Heart, ArrowRight, Stethoscope, CheckCircle2, AlertCircle, Key, User } from 'lucide-react';
+import { X, UserCheck, ShieldCheck, Heart, ArrowRight, Stethoscope, AlertCircle } from 'lucide-react';
 import { apiService } from '../services/api';
 
 export default function AuthModal({ onClose, onLoginSuccess }) {
   const [tab, setTab] = useState('login');
   const [role, setRole] = useState('Senior Member'); // 'Senior Member' | 'Physiotherapist'
-  const [email, setEmail] = useState('sarah.jenkins@vitality.org');
-  const [password, setPassword] = useState('password123');
-  const [name, setName] = useState('Sarah Jenkins');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -40,29 +40,13 @@ export default function AuthModal({ onClose, onLoginSuccess }) {
       }
     } catch (err) {
       setLoading(false);
-      setErrorMessage('Network connection error. Trying offline fallback...');
+      setErrorMessage('Network connection error. Please try again.');
     }
   };
 
   const handleRoleSwitch = (selectedRole) => {
     setRole(selectedRole);
     setErrorMessage('');
-    if (selectedRole === 'Physiotherapist') {
-      setEmail('robert.vance@kineticage.clinic');
-      setPassword('doctor123');
-      setName('Dr. Robert Vance, PT');
-    } else {
-      setEmail('sarah.jenkins@vitality.org');
-      setPassword('password123');
-      setName('Sarah Jenkins');
-    }
-  };
-
-  const quickLoginAs = (targetRole) => {
-    handleRoleSwitch(targetRole);
-    setTimeout(() => {
-      handleSubmit(null);
-    }, 100);
   };
 
   return (
@@ -86,33 +70,6 @@ export default function AuthModal({ onClose, onLoginSuccess }) {
           <p style={{ fontSize: '0.85rem', color: 'var(--ink-secondary)', marginTop: '2px' }}>
             {role === 'Physiotherapist' ? 'Clinical Staff Command Center Access' : 'Senior Member Mobility Portal Access'}
           </p>
-        </div>
-
-        {/* Demo Fast Login Switcher */}
-        <div style={{ background: 'var(--surface-cream)', padding: '12px 14px', borderRadius: 'var(--radius-md)', marginBottom: '18px', border: '1px solid var(--outline-variant)' }}>
-          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--ink-secondary)', textTransform: 'uppercase', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Key size={12} /> Quick Access Accounts
-          </div>
-          
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <button
-              type="button"
-              onClick={() => quickLoginAs('Senior Member')}
-              style={{ padding: '6px 12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--primary-container)', background: '#ffffff', color: 'var(--primary-container)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-            >
-              <span>Member: Sarah Jenkins</span>
-              <span style={{ fontSize: '0.7rem', opacity: 0.8 }}>sarah.jenkins@vitality.org</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => quickLoginAs('Physiotherapist')}
-              style={{ padding: '6px 12px', borderRadius: 'var(--radius-sm)', border: '1px solid var(--secondary)', background: '#ffffff', color: 'var(--secondary)', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
-            >
-              <span>Doctor: Dr. Robert Vance, PT</span>
-              <span style={{ fontSize: '0.7rem', opacity: 0.8 }}>robert.vance@kineticage.clinic</span>
-            </button>
-          </div>
         </div>
 
         {/* Role Selector Buttons */}
@@ -193,6 +150,7 @@ export default function AuthModal({ onClose, onLoginSuccess }) {
               </label>
               <input 
                 type="text" 
+                placeholder="Enter your full name"
                 value={name}
                 onChange={e => setName(e.target.value)}
                 required
@@ -207,6 +165,7 @@ export default function AuthModal({ onClose, onLoginSuccess }) {
             </label>
             <input 
               type="email" 
+              placeholder="Enter your email address"
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
@@ -220,6 +179,7 @@ export default function AuthModal({ onClose, onLoginSuccess }) {
             </label>
             <input 
               type="password" 
+              placeholder="Enter your password"
               value={password}
               onChange={e => setPassword(e.target.value)}
               required
