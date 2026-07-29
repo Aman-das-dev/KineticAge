@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, PhoneCall, Calendar, UserCheck, ShieldCheck, Stethoscope, LogOut, LogIn } from 'lucide-react';
+import { Activity, PhoneCall, Calendar, UserCheck, ShieldCheck, Stethoscope, LogOut, LogIn, UserPlus } from 'lucide-react';
 
 export default function Header({ currentView, setCurrentView, onOpenAuth, onOpenBooking, user, isLoggedIn, onLogout }) {
   return (
@@ -39,7 +39,7 @@ export default function Header({ currentView, setCurrentView, onOpenAuth, onOpen
           </div>
         </div>
 
-        {/* Clean Center: Active Portal Badge if Logged In */}
+        {/* Center: Active Portal Badge if Logged In */}
         <nav style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
           {isLoggedIn && (
             user.role === 'Senior Member' ? (
@@ -63,8 +63,8 @@ export default function Header({ currentView, setCurrentView, onOpenAuth, onOpen
         </nav>
 
         {/* Action Buttons & User Profile */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-          <button className="btn-secondary" style={{ padding: '10px 20px', fontSize: '0.9rem' }} onClick={onOpenBooking}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <button className="btn-secondary" style={{ padding: '10px 18px', fontSize: '0.88rem' }} onClick={onOpenBooking}>
             <Calendar size={16} /> Book Session
           </button>
 
@@ -95,14 +95,24 @@ export default function Header({ currentView, setCurrentView, onOpenAuth, onOpen
               </button>
             </div>
           ) : (
-            /* Guest Sign In Trigger */
-            <button 
-              className="btn-primary" 
-              style={{ padding: '10px 22px', fontSize: '0.9rem' }}
-              onClick={onOpenAuth}
-            >
-              <LogIn size={16} /> Sign In
-            </button>
+            /* Guest Sign In & Sign Up Dual Buttons */
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button 
+                className="btn-secondary" 
+                style={{ padding: '9px 16px', fontSize: '0.88rem' }}
+                onClick={onOpenAuth}
+              >
+                <LogIn size={16} /> Sign In
+              </button>
+
+              <button 
+                className="btn-primary" 
+                style={{ padding: '9px 18px', fontSize: '0.88rem' }}
+                onClick={() => setCurrentView('register')}
+              >
+                <UserPlus size={16} /> Sign Up
+              </button>
+            </div>
           )}
         </div>
 
